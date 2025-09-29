@@ -1,0 +1,42 @@
+-- Consulta simples para visualizar os dados da tabela criada pelo Glue Crawler
+SELECT * 
+FROM "meu_db_athena"."nome_da_tabela"
+LIMIT 10;
+
+
+-- Gerar nova tabela manualmente no Athena
+CREATE EXTERNAL TABLE IF NOT EXISTS "meu_db_athena"."nova_tabela_exemplo" (
+  id INT,
+  nome STRING,
+  idade INT,
+  cidade STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = ',',
+  'field.delim' = ','
+)
+LOCATION 's3://meu-bucket-athena/meus-dados/nova-tabela/'
+TBLPROPERTIES ('has_encrypted_data'='false');
+
+-- Agrupamento por cidade para visualização no QuickSight
+SELECT cidade, COUNT(*) AS total_pessoas
+FROM "meu_db_athena"."nova_tabela_exemplo"
+GROUP BY cidade
+ORDER BY total_pessoas DESC;
+
+-- Filtro por faixa etária
+SELECT nome, idade, cidade
+FROM "meu_db_athena"."nova_tabela_exemplo"
+WHERE idade BETWEEN 18 AND 30;
+
+-- Estatísticas básicas para visualização
+SELECT 
+  MIN(idade) AS idade_minima,
+  MAX(idade) AS idade_maxima,
+  AVG(idade) AS idade_media
+FROM "meu_db_athena"."nova_tabela_exemplo";
+
+
+
+
