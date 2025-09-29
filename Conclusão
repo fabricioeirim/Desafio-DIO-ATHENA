@@ -1,0 +1,9 @@
+
+## 📣 Conclusão
+
+Este desafio mostrou como é possível construir uma solução analítica completa e escalável utilizando apenas serviços gerenciados da AWS. O Athena se destaca por permitir consultas SQL diretamente sobre dados no S3, sem necessidade de ETL tradicional.
+
+---
+
+**Desenvolvido com 💻 por [Fabricio](https://github.com/seu-usuario)**  
+Desafio disponível na [DIO](https://www.dio.me/)
