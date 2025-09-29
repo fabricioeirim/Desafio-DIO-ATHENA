@@ -1,0 +1,64 @@
+# 📊 Desafio DIO: Explorando o Amazon Athena com S3, Glue e QuickSight
+
+Este repositório contém minha participação na live da [DIO](https://www.dio.me/) realizada em **01/10/2021**, com foco na criação de uma solução analítica utilizando o **Amazon Athena**, integrando com **Amazon S3**, **AWS Glue** e **Amazon QuickSight**.
+
+## 🚀 Objetivo
+
+Demonstrar como é possível realizar consultas SQL diretamente sobre arquivos armazenados no Amazon S3, utilizando o Athena como motor de consulta, o Glue como catálogo de dados e o QuickSight para visualização.
+
+## 🧰 Serviços utilizados
+
+- **Amazon S3** – Armazenamento dos arquivos de dados e resultados de queries
+- **AWS Glue** – Catálogo de dados e criação de tabelas via Crawler
+- **Amazon Athena** – Consulta SQL sobre dados no S3
+- **Amazon QuickSight** – Visualização gráfica dos dados consultados
+
+## 🛠️ Etapas do desenvolvimento
+
+### 1. Criar bucket no Amazon S3
+- Console → Buckets → Create bucket
+- Nome do bucket: `meu-bucket-athena`
+- Criar pastas:
+  - `/output` → para armazenar resultados das queries
+  - `/meus-dados` → onde os arquivos da pasta `/data` foram enviados
+
+### 2. Upload dos arquivos de dados
+- Enviar os arquivos `.csv` ou `.json` para a pasta `/meus-dados`
+
+### 3. Criar Glue Crawler
+- Console → Crawlers → Add Crawler
+- Source type: `Data Stores`
+- Data store: `S3` → caminho da pasta `/meus-dados`
+- IAM Role: criar ou selecionar existente
+- Frequency: `Run on demand`
+- Database name: `meu_db_athena`
+- Group behavior: `Create a single schema for each S3 path`
+- Finalizar e executar o crawler
+
+### 4. Visualizar tabelas no Glue
+- Console → Databases → `meu_db_athena` → verificar tabelas criadas
+
+### 5. Configurar Athena
+- Query editor → Settings → Query result location → selecionar `/output` no S3
+- Selecionar o database: `meu_db_athena`
+- Criar queries SQL para explorar os dados (exemplos estão na pasta `/src`)
+- Salvar queries e verificar os resultados no bucket `/output`
+
+### 6. Criar nova tabela no Athena
+- Gerar DDL da tabela
+- Copiar e executar a query no editor do Athena
+- Verificar se a nova tabela aparece no catálogo
+
+### 7. Visualizar dados no QuickSight
+- Criar conta (caso necessário) → selecionar plano `Standard`
+- Datasets → Create new dataset → Fonte: `Athena`
+- Nome do dataset: `meus_dados_athena`
+- Selecionar database e tabela
+- Editar, salvar e visualizar com gráficos, filtros e parâmetros
+
+### 8. Eliminar recursos
+- Excluir bucket, crawler, database e visualizações criadas
+
+## 📂 Estrutura do repositório
+
+
